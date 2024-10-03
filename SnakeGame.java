@@ -10,10 +10,9 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
     int boardHeight;
     int boardWidth;
     int tileSize = 25;
-
-    //Snake
-    Tile snakeHead;
-    ArrayList<Tile> snakeBody;
+    
+    //newSnake
+    ArrayList<Tile> snake;
     
     //Food
     Tile food;
@@ -33,12 +32,11 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         setBackground(Color.black);
         addKeyListener(this);
         setFocusable(true);
-
-        snakeHead = new Tile(5,5);
-        snakeBody = new ArrayList<Tile>();
+        
+        snake = new ArrayList<Tile>();
+        snake.add(new Tile(5,5));
         food = new Tile (10,10);
         random = new Random();
-        placeFood();
 
         velocityX = 1;
         velocityY = 0;
@@ -65,15 +63,15 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         g.setColor(Color.pink);
         g.fillRect(food.x * tileSize, food.y *tileSize, tileSize, tileSize);
 
-        //SnakeHead
+        //Snake
         g.setColor(Color.green);
-        g.fillRect(snakeHead.x * tileSize, snakeHead.y * tileSize, tileSize, tileSize);
-
-        //snakeBody
-        for(int i = 0; i < snakeBody.size();i++){
-            Tile snakePart = snakeBody.get(i); 
-            g.fillRect(snakePart.x * tileSize, snakePart.y * tileSize, tileSize, tileSize);
+        for(int i = 0; i < snake.size(); i++){
+            System.out.println(snake.size());
+            g.fillRect(snake.get(i).x * tileSize, snake.get(i).y * tileSize, tileSize, tileSize);
         }
+        
+
+
      }
 
     public void placeFood(){
@@ -95,19 +93,31 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
     }
 
     public boolean collision(Tile tile1, Tile tile2){
-        return tile1.x == tile2.x && tile2.y == tile2.y;
+        return tile1.x == tile2.x && tile1.y == tile2.y;
     }
-
     public void move(){
         //eat food
-        if(collision(snakeHead, food)){
-            snakeBody.add(new Tile(food.x,food.y));
-            placeFood();
+        if(collision(snake.get(0), food)){
+            Tile newSnakePart = new Tile(snake.get(snake.size()-1).x,snake.get(snake.size()-1).y);
+            snake.add(newSnakePart);
+            placeFood(); 
         }
-        //Snake Head
-        snakeHead.x += velocityX;
-        snakeHead.y += velocityY;
+
+        //Snake Growth
+        for(int i = snake.size() - 1; i > 0 ; i--){
+            if(i == 0) continue; 
+            Tile lastBody = snake.get(i - 1);
+            Tile nextBody = snake.get(i);
+            nextBody.x = lastBody.x;
+            nextBody.y = lastBody.y;                
+            
+        }
+        
+        //Snake movement
+        snake.get(0).x += velocityX;
+        snake.get(0).y += velocityY;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
