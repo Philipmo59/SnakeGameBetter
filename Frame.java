@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 public class Frame {
     private static final int HEIGHT = 500;
     private static final int WIDTH = 500;
+    // int currentScore = SnakeGame.getScore();
+
 
     public static void main(String[] args){
         JFrame frame = new JFrame("SnakeGame");
