@@ -1,8 +1,11 @@
+package SnakeFolder;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
+import FrameFolder.Frame;
 
 
 public class SnakeGame extends JPanel implements ActionListener, KeyListener{
@@ -10,13 +13,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
     int boardHeight;
     int boardWidth;
     int tileSize = 25;
-
+    
 
     //Array of Snake parts
     ArrayList<Tile> snake;
     
     //Food
     Tile food;
+
     //Random Food Location
     Random random;
 
@@ -27,9 +31,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
     int velocityY;
 
 
-
     //Snake Game Constructor;
-    SnakeGame(int height, int width){
+    public SnakeGame(int height, int width){
         this.boardHeight = height;
         this.boardWidth = width;
         setPreferredSize(new Dimension(this.boardWidth,this.boardHeight));
@@ -48,6 +51,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         //Score Check
 
 
+        //Snake movement
         velocityX = 1;
         velocityY = 0;
 
@@ -109,8 +113,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         }
     }
     public int getScore(){
-        int score = snake.size() - 1;
-        System.out.println(score);
+        System.out.println(snake.size());
         return snake.size();
     }
 
@@ -119,6 +122,8 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         if(collision(snake.get(0), food)){
             Tile newSnakePart = new Tile(snake.get(snake.size()-1).x,snake.get(snake.size()-1).y);
             snake.add(newSnakePart);
+            Frame.score += 1;
+            Frame.updateLabel();
             placeFood(); 
         }
 
