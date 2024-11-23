@@ -48,10 +48,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         food = new Tile (10,10);
         random = new Random();
 
-        //Score Check
-
-
-        //Snake movement
+        //Snake consistent movement
         velocityX = 1;
         velocityY = 0;
 
@@ -97,7 +94,7 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         }
      }
      
-     public boolean collision(Tile tile1, Tile tile2){
+    public boolean collision(Tile tile1, Tile tile2){
         return tile1.x == tile2.x && tile1.y == tile2.y;
     }
 
@@ -113,10 +110,14 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         }
     }
     public int getScore(){
-        System.out.println(snake.size());
-        return snake.size();
+        System.out.println(snake.size() - 1);
+        return snake.size() - 1;
     }
 
+    public void endGame(){
+        gameLoop.stop();
+        getScore();
+    }
     public void move(){
         //eat food
         if(collision(snake.get(0), food)){
@@ -142,14 +143,18 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
 
         
         // //crashed into wall
-        // if(collision(snake.get(0),))
+        if(snake.get(0).x < 0 || snake.get(0).x > 19){
+            endGame();
+        }
+        if(snake.get(0).y < 0 || snake.get(0).y > 19){
+            endGame();
+        }
 
         //Snake crashes into itself
         for(int i = 1; i < snake.size(); i++){
         Tile snakeHead = snake.get(0);
         if (collision(snakeHead, snake.get(i))) {
-            getScore();
-            gameLoop.stop();
+            endGame();
             }
         }
     }
@@ -180,6 +185,26 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
         move();
         repaint();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
