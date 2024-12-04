@@ -109,14 +109,10 @@ public class SnakeGame extends JPanel implements ActionListener, KeyListener{
             }
         }
     }
-    public int getScore(){
-        System.out.println(snake.size() - 1);
-        return snake.size() - 1;
-    }
 
     public void endGame(){
         gameLoop.stop();
-        getScore();
+        Frame.addRestartButton();
     }
     public void move(){
         //eat food
